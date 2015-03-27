@@ -77,6 +77,8 @@ main:
 									
 	loadn r1, #str1
 
+	loadn r3, #0
+
 	call ImprimeString
 
 	loadn r5, #19
@@ -99,13 +101,60 @@ main:
 	
 	call ImprimeTela
 
-	call ApagaTela
-	
-	loadn r1, #0
+	call ImprimeSombra
+
 
 	halt				  
 
-	
+
+;___________________ IMPRIME TRACINHOS ______________________
+
+
+ImprimeSombra:
+
+	push r0
+
+	push r1
+
+	push r2
+
+	push r7
+
+	loadn r0, #1000 ;Posicao que vai imprimir
+
+	loadn r1, #'_'
+
+	loadn r2, #0
+
+	LoopSombra:
+
+		cmp r2, r7
+
+		jeg FimSombra
+
+		outchar r1, r0
+
+		inc r0
+
+		inc r2
+
+		jmp LoopSombra
+
+	FimSombra:
+
+		pop r7
+
+		pop r2
+
+		pop r1
+
+		pop r0
+
+		rts
+
+
+
+		
 ;______________________ IMPRIME TELA ________________________
 		
 
@@ -243,9 +292,13 @@ LeString:
 	
 	push r6
 
+	push r7
+
 	loadn r1, #255 
 	
 	loadn r2, #13
+
+	loadn r7, #0
 
 LeTecla:
 	
@@ -262,6 +315,8 @@ LeTecla:
 	jeq FimLeString
 
 	storei r6, r0 
+
+	inc r7 ;armazena o tamanho da palavra digitada
 	
 	inc r5 
 
@@ -274,6 +329,8 @@ FimLeString:
 	loadn r0, #'\0'
 	
 	storei r6, r0
+
+	pop r7
 
 	pop r6
 	
