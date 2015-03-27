@@ -26,6 +26,12 @@ jmp main
 
 str1: string "Digite uma palavra:"
 str2: var #30
+;str3: string "Letra ja foi digitada...Digite outra!"
+;str4: string "Se fodeu!!"
+;str5: string "Parabens!! Voce nao se fodeu!!"
+;str6: string "Jogar novamente? <s/n>"
+;str7: var #24
+;str8: var #30
 
 ;______________________ DESENHO FORCA ________________________
 
@@ -67,37 +73,35 @@ tela29	: string "                                        "
 
 main:
 
-	loadn r0, #0									
-
-	loadn r1, #tela0			 
-
-	loadn r2, #0			
-	
-	call ImprimeTela  
-
-	loadn r0, #960
-;80
+	loadn r0, #0
+									
 	loadn r1, #str1
 
 	call ImprimeString
 
-	loadn r5, #979 
+	loadn r5, #19
 	
 	loadn r6, #str2 
 
 	call LeString
 
-	call ApagaPalavra
-
-	;call ApagaTela
+	loadn r0, #40
 	
-	;loadn r0, #1000
+	loadn r1, #str2
+
+	call ImprimeString
+
+	loadn r0, #0
+
+	loadn r1, #tela0			 
+
+	loadn r2, #0
 	
-	;loadn r1, #str2
+	call ImprimeTela
 
-	;call ImprimeString
-
-	;call ApagaTela
+	call ApagaTela
+	
+	loadn r1, #0
 
 	halt				  
 
@@ -131,7 +135,7 @@ LoopImprime:
 	
 	cmp r4, r3
 
-	jeq SaiImprime
+	jeg SaiImprime
  
 	cmp r4, r5
 
