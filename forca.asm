@@ -112,8 +112,6 @@ main:
 	
 	call ImprimeTela
 
-	loadn r7, #tryListSize
-
 	call ImprimeSombra
 
 	halt				  
@@ -137,6 +135,8 @@ ImprimeSombra:
 	loadn r1, #'_'
 
 	loadn r2, #0
+
+	load r7, tryListSize
 
 	LoopSombra:
 
@@ -299,6 +299,8 @@ LeString:
 	push r1
 	
 	push r2
+
+	push r4
 	
 	push r5
 	
@@ -309,6 +311,8 @@ LeString:
 	loadn r1, #255 
 	
 	loadn r2, #13
+
+	loadn r4, #tryList
 
 	loadn r7, #0
 
@@ -328,7 +332,9 @@ LeTecla:
 
 	storei r6, r0 
 
-	;static tryList + #r7, #r0 ;Armazena no vector as palavras digitadas
+	storei r4, r0
+
+	inc r4
 
 	inc r7 ;armazena o tamanho da palavra digitada
 	
@@ -340,11 +346,9 @@ LeTecla:
 
 FimLeString:
 
-	inc r7
-
 	loadn r0, #'\0'
 
-	;store static tryList + r7, #'\0'
+	storei r4, r0
 
 	store tryListSize, r7
 	
@@ -355,6 +359,8 @@ FimLeString:
 	pop r6
 	
 	pop r5
+
+	pop r4
 	
 	pop r2
 	
