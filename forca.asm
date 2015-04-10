@@ -33,6 +33,11 @@ str2: var #30
 ;str7: var #24
 ;str8: var #30
 
+;_________________________ PALAVRA __________________________
+
+tryList : var #27 ;Armazena as lestras da palavra digitada
+tryListSize : var #1 ;Armazena o tamanho da palavra
+
 ;______________________ DESENHO FORCA ________________________
 
 
@@ -118,7 +123,7 @@ ImprimeSombra:
 
 	push r2
 
-	push r7
+	push r7 ;tamanho da palavra digitada
 
 	loadn r0, #1000 ;Posicao que vai imprimir
 
@@ -315,6 +320,8 @@ LeTecla:
 	jeq FimLeString
 
 	storei r6, r0 
+
+	static palavra + r7, r0 ;Armazena no vector as 
 
 	inc r7 ;armazena o tamanho da palavra digitada
 	
