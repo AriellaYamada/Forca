@@ -33,10 +33,14 @@ str2: var #30
 ;str7: var #24
 ;str8: var #30
 
+;____________________ OUTRAS VARIAVEIS ______________________
+
 ;_________________________ PALAVRA __________________________
 
 tryList : var #27 ;Armazena as lestras da palavra digitada
 tryListSize : var #1 ;Armazena o tamanho da palavra
+
+lestrasDigitadas : var #27 ;Armazena as letras que a pessoa já digitou
 
 ;______________________ DESENHO FORCA ________________________
 
@@ -78,6 +82,8 @@ tela29	: string "                                        "
 
 main:
 
+	call ApagaTela
+
 	loadn r0, #0
 									
 	loadn r1, #str1
@@ -106,13 +112,14 @@ main:
 	
 	call ImprimeTela
 
-	call ImprimeSombra
+	loadn r7, #tryListSize
 
+	call ImprimeSombra
 
 	halt				  
 
 
-;___________________ IMPRIME TRACINHOS ______________________
+;___________________ IMPRIME SOMBRA ______________________
 
 
 ImprimeSombra:
@@ -125,7 +132,7 @@ ImprimeSombra:
 
 	push r7 ;tamanho da palavra digitada
 
-	loadn r0, #1000 ;Posicao que vai imprimir
+	loadn r0, #1004 ;Posicao que vai imprimir
 
 	loadn r1, #'_'
 
@@ -135,7 +142,7 @@ ImprimeSombra:
 
 		cmp r2, r7
 
-		jeg FimSombra
+		jeq FimSombra
 
 		outchar r1, r0
 
@@ -321,7 +328,7 @@ LeTecla:
 
 	storei r6, r0 
 
-	static palavra + r7, r0 ;Armazena no vector as 
+	;static tryList + #r7, #r0 ;Armazena no vector as palavras digitadas
 
 	inc r7 ;armazena o tamanho da palavra digitada
 	
@@ -333,7 +340,13 @@ LeTecla:
 
 FimLeString:
 
+	inc r7
+
 	loadn r0, #'\0'
+
+	;store static tryList + r7, #'\0'
+
+	store tryListSize, r7
 	
 	storei r6, r0
 
