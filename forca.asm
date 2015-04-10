@@ -37,10 +37,13 @@ str2: var #30
 
 ;_________________________ PALAVRA __________________________
 
-tryList : var #27 ;Armazena as lestras da palavra digitada
-tryListSize : var #1 ;Armazena o tamanho da palavra
+Palavra : var #27
 
-lestrasDigitadas : var #27 ;Armazena as letras que a pessoa já digitou
+PalavraSize : var #1
+
+tryList : var #27 ;Armazena as lestras da palavra digitada
+
+tryListSize : var #1 ;Armazena o tamanho da palavra
 
 ;______________________ DESENHO FORCA ________________________
 
@@ -113,6 +116,8 @@ main:
 	call ImprimeTela
 
 	call ImprimeSombra
+
+
 
 	halt				  
 
@@ -312,7 +317,7 @@ LeString:
 	
 	loadn r2, #13
 
-	loadn r4, #tryList
+	loadn r4, #Palavra
 
 	loadn r7, #0
 
@@ -350,7 +355,7 @@ FimLeString:
 
 	storei r4, r0
 
-	store tryListSize, r7
+	store PalavraSize, r7
 	
 	storei r6, r0
 
@@ -369,6 +374,46 @@ FimLeString:
 	pop r0
 	
 	rts
+
+;_________________________VERIFICA ACERTO________________________
+
+VerificaAcerto:
+
+	push r0 ;Letra digitada
+
+	push r1 ;tryList
+
+	push r2 ;lestrasDigitadas
+
+	push r3 ;Contador
+
+	push r4 ;
+
+	inchar r0
+
+	loadn r1, #Palavra
+
+	loadn r2, #tryList
+
+	load r3, 
+
+	loadn r4, #'\0'
+
+SeTem:
+	
+	cmp r1, r4
+
+	jeq Erro
+
+	cmp r0, r1
+
+	jeq AcertoFim
+
+	inc  
+
+
+
+
 
 
 ;________________________IMPRIME STRING__________________________
