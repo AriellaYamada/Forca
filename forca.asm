@@ -32,6 +32,7 @@ str2: var #30
 ;str6: string "Jogar novamente? <s/n>"
 ;str7: var #24
 ;str8: var #30
+str9 : string "Digite uma letra:"
 
 ;____________________ OUTRAS VARIAVEIS ______________________
 
@@ -117,6 +118,23 @@ main:
 
 	call ImprimeSombra
 
+	loadn r0, #1080
+	
+	loadn r1, #str9
+
+	call ImprimeString
+
+	Loop:
+
+		call InputLetra
+
+	;loadn r3, #1050
+
+	;loadn r4, #48
+
+	;add r1, r1, r4
+
+	;outchar r1, r3
 
 
 	halt				  
@@ -141,7 +159,7 @@ ImprimeSombra:
 
 	loadn r2, #0
 
-	load r7, tryListSize
+	load r7, PalavraSize
 
 	LoopSombra:
 
@@ -375,41 +393,70 @@ FimLeString:
 	
 	rts
 
-;_________________________VERIFICA ACERTO________________________
 
-VerificaAcerto:
+;_________________________LE LETRA______________________________
 
-	push r0 ;Letra digitada
+InputLetra:
 
-	push r1 ;tryList
+	push r0
 
-	push r2 ;lestrasDigitadas
+	push r2
 
-	push r3 ;Contador
+	loadn r0, #255
 
-	push r4 ;
+LoopInputLetra:
 
-	inchar r0
+	inchar r2
+
+	cmp r0, r2
+
+	jeq LoopInputLetra
+
+	jmp FimInputLetra
+
+FimInputLetra:
+
+	pop r2
+
+	pop r0
+
+	rts
+
+;___________________________COMPARA______________________________
+
+Compara:
+
+	push r0 ;tamanho da palavra
+
+	push r1 ;palavra
+
+	push r2 ;letra digitada
+
+	push r3 ;FlagAcerto
+
+	push r4 ;Posição de impressão
+
+	push r5 ;Contador do for
+
+	load r0, PalavraSize
 
 	loadn r1, #Palavra
 
-	loadn r2, #tryList
+	loadn r3, #0
 
-	load r3, 
+	loadn r4, #1004
 
-	loadn r4, #'\0'
+	loadn r5, #0
 
-SeTem:
-	
-	cmp r1, r4
+	LoopCompara:
 
-	jeq Erro
+		cmp r0, r1
 
-	cmp r0, r1
 
-	jeq AcertoFim
 
-	inc  
+
+;_________________________VERIFICA ACERTO________________________
+
 
 
 
