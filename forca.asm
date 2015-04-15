@@ -42,9 +42,15 @@ Palavra : var #27
 
 PalavraSize : var #1
 
-tryList : var #27 ;Armazena as lestras da palavra digitada
+TryList : var #60 ;Armazena as lestras da palavra digitada
 
-tryListSize : var #1 ;Armazena o tamanho da palavra
+TryListSize : var #1 ;Armazena o tamanho da palavra
+
+Acerto : var #1	;Contador de Acertos
+
+Erro : var #1 ;Contador de erros
+
+Letra : var #1 ;Letra digitada
 
 ;______________________ DESENHO FORCA ________________________
 
@@ -102,11 +108,11 @@ main:
 
 	call LeString
 
-	loadn r0, #40
+	;loadn r0, #40
 	
-	loadn r1, #str2
+	;loadn r1, #str2
 
-	call ImprimeString
+	;call ImprimeString
 
 	loadn r0, #0
 
@@ -124,19 +130,13 @@ main:
 
 	call ImprimeString
 
-	loadn r3, #1050
-
-	;Loop:
+	Loop:
 
 		call InputLetra
+		
+		call Compara
 
-
-
-	;loadn r4, #48
-
-	;add r1, r1, r4
-
-	;outchar r1, r3
+		jmp Loop
 
 
 	halt				  
@@ -406,7 +406,28 @@ InputLetra:
 
 	push r3
 
-	loadn r0, #255
+	push r4
+
+	push r5
+
+	push r6
+
+	push r7
+
+	push r7
+
+	loadn r0, #255 ;Espera ocupada
+
+	loadn r3, #0 ;Contador do tamanho da palavra (for mais interno)
+
+	load r4, TryListSize ;Tamanho da TryList
+
+	loadn r5, #TryList ;TryList para comparação
+
+	loadn r6, #1120 ;Posição da impressao
+
+	loadn r7, #0
+
 
 LoopInputLetra:
 
@@ -416,15 +437,64 @@ LoopInputLetra:
 
 	jeq LoopInputLetra
 
-	outchar r2, r3
+	cmp r7, r4
 
-	jmp FimInputLetra
+	jeq FimInputLetra
+
+	LoopInputLetraCompara:
+
+		cmp r3, r4
+
+		jeq FimInputLetra
+
+		cmp r5, r2
+
+		jeq LoopInputLetra
+
+		inc r3
+
+		inc r5
+
+		jmp LoopInputLetraCompara
+
 
 FimInputLetra:
+
+	add r6, r6, r4
+
+	outchar r2, r6
+
+	store Letra, r2
+
+	loadn r5, #TryList
+
+	add r5, r5, r4
+
+	storei r5, r2
+
+	inc r4
+
+	inc r5
+
+	loadn r2, #'\0'
+
+	storei r5, r2
+
+	store TryListSize, r4
+
+	pop r7
+
+	pop r6
+
+	pop r5
+
+	pop r4
 
 	pop r3
 
 	pop r2
+
+	pop r1
 
 	pop r0
 
@@ -448,9 +518,13 @@ Compara:
 
 	push r6 ;Comparação de acerto
 
+	push r7 ;Incrementa o acerto/erro
+
 	load r0, PalavraSize
 
 	loadn r1, #Palavra
+
+	load r2, Letra
 
 	loadn r3, #0
 
@@ -458,7 +532,7 @@ Compara:
 
 	loadn r5, #0
 
-	loadb r6, #0
+	loadn r6, #0
 
 LoopCompara:
 
@@ -478,11 +552,19 @@ LoopCompara:
 
 Acerto:
 
-	add r4, r4, r5
+	;inc r4
+
+	;add r4, r4, r5
 
 	outchar r2, r4
 
 	loadn r3, #1
+
+	load r7, Acerto
+
+	inc r7
+
+	store Acerto, r7
 
 	inc r1
 
@@ -495,6 +577,14 @@ FimCompara:
 	cmp r6, r3
 
 	;jeq  ERRO ! FALTA IMPLEMENTAR
+
+	load r7, Erro
+
+	inc r7
+
+	store Erro, r7
+
+	pop r7
 
 	pop r6
 
@@ -509,14 +599,6 @@ FimCompara:
 	pop r1
 
 	pop r0
-
-
-;_________________________VERIFICA ACERTO________________________
-
-
-
-
-
 
 
 ;________________________IMPRIME STRING__________________________
