@@ -124,11 +124,13 @@ main:
 
 	call ImprimeString
 
-	Loop:
+	loadn r3, #1050
+
+	;Loop:
 
 		call InputLetra
 
-	;loadn r3, #1050
+
 
 	;loadn r4, #48
 
@@ -402,6 +404,8 @@ InputLetra:
 
 	push r2
 
+	push r3
+
 	loadn r0, #255
 
 LoopInputLetra:
@@ -412,9 +416,13 @@ LoopInputLetra:
 
 	jeq LoopInputLetra
 
+	outchar r2, r3
+
 	jmp FimInputLetra
 
 FimInputLetra:
+
+	pop r3
 
 	pop r2
 
@@ -426,17 +434,19 @@ FimInputLetra:
 
 Compara:
 
-	push r0 ;tamanho da palavra
+	push r0 ;Tamanho da palavra
 
-	push r1 ;palavra
+	push r1 ;Palavra
 
-	push r2 ;letra digitada
+	push r2 ;Letra digitada
 
 	push r3 ;FlagAcerto
 
 	push r4 ;Posição de impressão
 
 	push r5 ;Contador do for
+
+	push r6 ;Comparação de acerto
 
 	load r0, PalavraSize
 
@@ -448,11 +458,57 @@ Compara:
 
 	loadn r5, #0
 
-	LoopCompara:
+	loadb r6, #0
 
-		cmp r0, r1
+LoopCompara:
 
+	cmp r0, r5
 
+	jeq FimCompara
+
+	cmp r1, r2
+
+	jeq Acerto
+
+	inc r1
+
+	inc r5
+
+	jmp LoopCompara
+
+Acerto:
+
+	add r4, r4, r5
+
+	outchar r2, r4
+
+	loadn r3, #1
+
+	inc r1
+
+	inc r5
+
+	jmp LoopCompara
+
+FimCompara:
+
+	cmp r6, r3
+
+	;jeq  ERRO ! FALTA IMPLEMENTAR
+
+	pop r6
+
+	pop r5
+
+	pop r4
+
+	pop r3
+
+	pop r2
+
+	pop r1
+
+	pop r0
 
 
 ;_________________________VERIFICA ACERTO________________________
