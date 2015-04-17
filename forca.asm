@@ -592,6 +592,10 @@ LetraRepetida:
 
 FimInputLetra:
 
+	add r6, r6, r4
+
+	outchar r2, r6
+
 	loadn r5, #TryList
 
 	add r5, r5, r4
@@ -806,6 +810,12 @@ FimErro:
 	loadn r0, #1004
 
 	loadn r1, #Palavra
+
+	call ImprimeString
+
+	loadn r0, #1040
+
+	loadn r1, #str4
 
 	call ImprimeString
 
