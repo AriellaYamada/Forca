@@ -247,6 +247,49 @@ SaiImprime:
 
 	rts
 
+;________________________IMPRIME STRING__________________________
+
+
+ImprimeString:
+	
+	push r0
+
+	push r1
+
+	push r2  
+
+	push r3  
+
+	loadn r2, #'\0'
+
+LoopPercorre:
+	
+	loadi r3, r1  
+	
+	cmp r3, r2  		
+	
+	jeq SaiLoop  
+
+	outchar r3, r0
+	
+	inc r0
+
+	inc r1
+
+	jmp LoopPercorre
+
+SaiLoop:
+	
+	pop r3
+	
+	pop r2
+
+	pop r1
+
+	pop r0
+
+	rts
+
 ;______________________ APAGA TELA ___________________________
 
 
@@ -283,9 +326,9 @@ ApagaPalavra:
 	push r1
 	push r2
 
-	loadn r0, #979
+	loadn r0, #1080
 	loadn r1, #' '
-	loadn r2, #1199
+	loadn r2, #1119
 
 LoopApagarPalavra:
 
@@ -439,6 +482,8 @@ InputLetra:
 	push r6
 
 	push r7
+
+	call ApagaPalavra
 
 	loadn r0, #1080
 	
@@ -610,11 +655,7 @@ Acerto:
 
 	jmp LoopCompara
 
-FimCompara:
-
-	cmp r6, r3
-
-	;jeq  ERRO ! FALTA IMPLEMENTAR
+Erro:
 
 	load r7, Erros
 
@@ -638,44 +679,24 @@ FimCompara:
 
 	pop r0
 
+	rts
 
+FimCompara:
 
+	cmp r6, r3
 
-;________________________IMPRIME STRING__________________________
+	jeq Erro
 
+	pop r7
 
-ImprimeString:
-	
-	push r0
+	pop r6
 
-	push r1
+	pop r5
 
-	push r2  
+	pop r4
 
-	push r3  
-
-	loadn r2, #'\0'
-
-LoopPercorre:
-	
-	loadi r3, r1  
-	
-	cmp r3, r2  		
-	
-	jeq SaiLoop  
-
-	outchar r3, r0
-	
-	inc r0
-
-	inc r1
-
-	jmp LoopPercorre
-
-SaiLoop:
-	
 	pop r3
-	
+
 	pop r2
 
 	pop r1
@@ -683,3 +704,8 @@ SaiLoop:
 	pop r0
 
 	rts
+;_____________________ Testa Fim _________________________________
+
+
+
+
