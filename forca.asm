@@ -50,7 +50,7 @@ Acerto : var #1	;Contador de Acertos
 
 Erro : var #1 ;Contador de erros
 
-Letra : var #1 ;Letra digitada
+Letra : var #2 ;Letra digitada
 
 ;______________________ DESENHO FORCA ________________________
 
@@ -402,6 +402,8 @@ InputLetra:
 
 	push r0
 
+	push r1
+
 	push r2
 
 	push r3
@@ -414,11 +416,9 @@ InputLetra:
 
 	push r7
 
-	push r7
-
 	loadn r0, #255 ;Espera ocupada
 
-	loadn r3, #0 ;Contador do tamanho da palavra (for mais interno)
+	loadn r2, #Letra
 
 	load r4, TryListSize ;Tamanho da TryList
 
@@ -441,11 +441,13 @@ LoopInputLetra:
 
 	jeq FimInputLetra
 
+	loadn r3, #0 ;Contador do tamanho da palavra (for mais interno)
+
 	LoopInputLetraCompara:
 
 		cmp r3, r4
 
-		jeq FimInputLetra
+		jeg FimInputLetra
 
 		cmp r5, r2
 
@@ -464,7 +466,9 @@ FimInputLetra:
 
 	outchar r2, r6
 
-	store Letra, r2
+	loadn r1, #Letra
+
+	storei r1, r2
 
 	loadn r5, #TryList
 
@@ -478,6 +482,10 @@ FimInputLetra:
 
 	loadn r2, #'\0'
 
+	inc r1
+
+	storei r1, r2
+	
 	storei r5, r2
 
 	store TryListSize, r4
@@ -524,7 +532,7 @@ Compara:
 
 	loadn r1, #Palavra
 
-	load r2, Letra
+	loadn r2, #Letra
 
 	loadn r3, #0
 
