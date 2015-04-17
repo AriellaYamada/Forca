@@ -823,6 +823,8 @@ FimErro:
 
 	loadn r1, #str6
 
+	call ImprimeString
+
 	call DigitaLetra
 
 	load r2, Letra
