@@ -128,13 +128,17 @@ main:
 
 	call ApagaTela
 
-	;loadn r0, #'\0'
-
 	loadn r0, #0
 									
 	loadn r1, #str1
 
-	loadn r3, #0
+	store TryListSize, r0
+
+	store PalavraSize, r0
+
+	store Acertos, r0
+
+	store Erros, r0
 
 	call ImprimeString
 
