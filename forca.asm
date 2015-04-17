@@ -46,9 +46,9 @@ TryList : var #60 ;Armazena as lestras da palavra digitada
 
 TryListSize : var #1 ;Armazena o tamanho da palavra
 
-Acerto : var #1	;Contador de Acertos
+Acertos : var #1	;Contador de Acertos
 
-Erro : var #1 ;Contador de erros
+Erros : var #1 ;Contador de erros
 
 Letra : var #2 ;Letra digitada
 
@@ -133,7 +133,7 @@ main:
 	Loop:
 
 		call InputLetra
-		
+
 		call Compara
 
 		jmp Loop
@@ -422,8 +422,6 @@ InputLetra:
 
 	load r4, TryListSize ;Tamanho da TryList
 
-	loadn r5, #TryList ;TryList para comparação
-
 	loadn r6, #1120 ;Posição da impressao
 
 	loadn r7, #0
@@ -436,12 +434,14 @@ LoopInputLetra:
 	cmp r0, r2
 
 	jeq LoopInputLetra
-
+	
 	cmp r7, r4
 
 	jeq FimInputLetra
 
 	loadn r3, #0 ;Contador do tamanho da palavra (for mais interno)
+
+	loadn r5, #TryList ;TryList para comparação
 
 	LoopInputLetraCompara:
 
@@ -536,9 +536,9 @@ Compara:
 
 	loadn r3, #0
 
-	loadn r4, #1004
+	loadn r4, #1004 ;Posição de impressão
 
-	loadn r5, #0
+	loadn r5, #0 ;Contador
 
 	loadn r6, #0
 
@@ -560,19 +560,17 @@ LoopCompara:
 
 Acerto:
 
-	;inc r4
-
-	;add r4, r4, r5
+	add r4, r4, r5
 
 	outchar r2, r4
 
 	loadn r3, #1
 
-	load r7, Acerto
+	load r7, Acertos
 
 	inc r7
 
-	store Acerto, r7
+	store Acertos, r7
 
 	inc r1
 
@@ -586,11 +584,11 @@ FimCompara:
 
 	;jeq  ERRO ! FALTA IMPLEMENTAR
 
-	load r7, Erro
+	load r7, Erros
 
 	inc r7
 
-	store Erro, r7
+	store Erros, r7
 
 	pop r7
 
