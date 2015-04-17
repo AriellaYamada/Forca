@@ -26,12 +26,10 @@ jmp main
 
 str1: string "Digite uma palavra:"
 str2: var #30
-;str3: string "Letra ja foi digitada...Digite outra!"
-;str4: string "Se fodeu!!"
-;str5: string "Parabens!! Voce nao se fodeu!!"
-;str6: string "Jogar novamente? <s/n>"
-;str7: var #24
-;str8: var #30
+str3: string "Letra ja foi digitada...Digite outra!"
+str4: string "Se fodeu!!"
+str5: string "Parabens!! Voce nao se fodeu!!"
+str6: string "Jogar novamente? <s/n>"
 str9 : string "Digite uma letra:"
 
 str10 : string "Letra Repetida! Digite outra"
@@ -89,6 +87,39 @@ tela28 	: string "                                        "
 tela29	: string "                                        "
 
 
+;______________________Desenho Forca Fim______________________
+
+ 
+tela0f  : string " ____________________________________   "
+tela1f  : string "|   _________________________________|  "
+tela2f  : string "|  |                   | |              "
+tela3f  : string "|  |                   | |              "
+tela4f  : string "|  |                   | |              "
+tela5f  : string "|  |                   | |              "
+tela6f  : string "|  |                   | |              "
+tela7f  : string "|  |                   | |              "
+tela8f  : string "|  |                   |_|              "
+tela9f  : string "|  |                  |X X|             "
+tela10f : string "|  |                  |___|             "
+tela11f : string "|  |                ___| |___           "
+tela12f : string "|  |               |         |          "
+tela13f : string "|  |               | |     | |          "
+tela14f : string "|  |               | |     | |          "
+tela15f : string "|  |___________   _| |_____| |_    ___  "
+tela16f : string "|   __________() |__ |  _  | __|      | "
+tela17f : string "|  |          XX     | | | |       |  | "
+tela18f : string "|  |          XX     | | | |       |  | "
+tela19f : string "|  |          XX     | | | |       |  | "
+tela20f : string "|  |          XX    _| | | |_      |  | "
+tela21f : string "|  |          XX   |___| |___|     |  | "
+tela22f : string "|  |          XX                   |  | "
+tela23f : string "|__|                               |__| "
+tela24f : string "                                        "
+tela25f : string "                                        "
+tela26f : string "                                        "
+tela27f : string "                                        "
+tela28f : string "                                        "
+tela29f : string "                                        "
 
 ;___________________ PROGRAMA PRINCIPAL ______________________
 
@@ -96,6 +127,8 @@ tela29	: string "                                        "
 main:
 
 	call ApagaTela
+
+	;loadn r0, #'\0'
 
 	loadn r0, #0
 									
@@ -132,6 +165,8 @@ main:
 		call InputLetra
 
 		call Compara
+
+		call TestaFim
 
 		jmp Loop
 
@@ -205,7 +240,7 @@ ImprimeTela:
 	
 	push r5 
 	
-	loadn r3, #1199
+	loadn r3, #899
 
 	loadn r5, #'\0'
 
@@ -323,11 +358,15 @@ LoopApagarTela:
 ApagaPalavra:
 
 	push r0
+
 	push r1
+	
 	push r2
 
 	loadn r0, #1080
+	
 	loadn r1, #' '
+	
 	loadn r2, #1119
 
 LoopApagarPalavra:
@@ -705,6 +744,117 @@ FimCompara:
 
 	rts
 ;_____________________ Testa Fim _________________________________
+
+
+TestaFim:
+
+push r0 
+
+push r1
+
+push r2 ;Leitura da resposta
+
+push r3	;Leitura Erros/Acertos
+
+push r4 ;Comparação de erros
+
+push r5
+
+load r3, Erros
+
+loadn r4, #8
+
+cmp r3, r4
+
+jeq FimErro
+
+load r3, Acertos
+
+load r4, PalavraSize
+
+cmp r3, r4
+
+jeq FimAcerto
+
+pop r5
+
+pop r4
+
+pop r3
+
+pop r2
+
+pop r1
+
+pop r0
+
+rts
+
+
+FimErro:
+
+	loadn r0, #0
+
+	loadn r1, #tela0f
+
+	call ImprimeTela
+
+	loadn r0, #1004
+
+	loadn r1, #Palavra
+
+	call ImprimeString
+
+	loadn r0, #1080
+
+	loadn r1, #str6
+
+	call DigitaLetra
+
+	load r2, Letra
+
+	loadn r5, #'s'
+
+	cmp r2, r5
+
+	jeq ComecaDeNovo
+
+	halt
+
+FimAcerto:
+
+	loadn r0, #1040
+
+	loadn r1, #str5
+
+	call ImprimeString
+
+	loadn r0, #1080
+
+	loadn r1, #str6
+
+	call ImprimeString
+
+	call DigitaLetra
+
+	load r2, Letra
+
+	loadn r5, #'s'
+
+	cmp r2, r5
+
+	jeq ComecaDeNovo
+
+	halt
+
+ComecaDeNovo:
+
+	call ApagaTela
+
+	pop r0
+
+	jmp main
+
 
 
 
