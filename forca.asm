@@ -90,7 +90,6 @@ tela29	: string "                                        "
 
 
 
-
 ;___________________ PROGRAMA PRINCIPAL ______________________
 
 
@@ -567,13 +566,13 @@ Compara:
 
 	loadn r3, #0
 
-	loadn r4, #1004 ;Posição de impressão
-
 	loadn r5, #0 ;Contador
 
 	loadn r6, #0
 
 LoopCompara:
+	
+	loadn r4, #1004 ;Posição de impressão
 
 	cmp r0, r5
 
@@ -638,6 +637,7 @@ FimCompara:
 	pop r1
 
 	pop r0
+
 
 
 
