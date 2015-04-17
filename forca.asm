@@ -34,13 +34,15 @@ str2: var #30
 ;str8: var #30
 str9 : string "Digite uma letra:"
 
-;____________________ OUTRAS VARIAVEIS ______________________
+str10 : string "Letra Repetida! Digite outra"
 
 ;_________________________ PALAVRA __________________________
 
 Palavra : var #27
 
 PalavraSize : var #1
+
+;____________________ OUTRAS VARIAVEIS ______________________
 
 TryList : var #60 ;Armazena as lestras da palavra digitada
 
@@ -86,6 +88,8 @@ tela27 	: string "                                        "
 tela28 	: string "                                        "
 tela29	: string "                                        "
 
+;_______________________Desenho Forca Fim_______________________
+
 
 ;___________________ PROGRAMA PRINCIPAL ______________________
 
@@ -123,12 +127,6 @@ main:
 	call ImprimeTela
 
 	call ImprimeSombra
-
-	loadn r0, #1080
-	
-	loadn r1, #str9
-
-	call ImprimeString
 
 	Loop:
 
@@ -188,9 +186,6 @@ ImprimeSombra:
 		pop r0
 
 		rts
-
-
-
 		
 ;______________________ IMPRIME TELA ________________________
 		
@@ -252,7 +247,6 @@ SaiImprime:
 	pop r0
 
 	rts
-
 
 ;______________________ APAGA TELA ___________________________
 
@@ -395,6 +389,37 @@ FimLeString:
 	
 	rts
 
+;_________________________DIGITA LETRA__________________________
+
+DigitaLetra:
+
+	push fr
+
+	push r0
+
+	push r1
+
+	loadn r0, #255
+
+	LoopDigitaLetra:
+
+		inchar r1
+
+		cmp r0, r1
+
+		jeq LoopDigitaLetra
+
+		store Letra, r1
+
+FimDigitaLetra:
+
+	pop r1
+
+	pop r0
+
+	pop fr
+
+	rts
 
 ;_________________________LE LETRA______________________________
 
@@ -416,11 +441,17 @@ InputLetra:
 
 	push r7
 
-	loadn r0, #255 ;Espera ocupada
+	loadn r0, #1080
+	
+	loadn r1, #str9
 
-	loadn r2, #Letra
+	call ImprimeString
+
+	loadn r3, #0 ;Contador do tamanho da palavra (for mais interno)
 
 	load r4, TryListSize ;Tamanho da TryList
+
+	loadn r5, #TryList ;TryList para comparação
 
 	loadn r6, #1120 ;Posição da impressao
 
@@ -429,19 +460,17 @@ InputLetra:
 
 LoopInputLetra:
 
-	inchar r2
+	call DigitaLetra
 
-	cmp r0, r2
+	load r2, Letra
 
-	jeq LoopInputLetra
+	add r6, r6, r4
+ 
+    outchar r2, r6
 	
 	cmp r7, r4
 
 	jeq FimInputLetra
-
-	loadn r3, #0 ;Contador do tamanho da palavra (for mais interno)
-
-	loadn r5, #TryList ;TryList para comparação
 
 	LoopInputLetraCompara:
 
@@ -451,7 +480,7 @@ LoopInputLetra:
 
 		cmp r5, r2
 
-		jeq LoopInputLetra
+		jeq LetraRepetida
 
 		inc r3
 
@@ -459,16 +488,24 @@ LoopInputLetra:
 
 		jmp LoopInputLetraCompara
 
+LetraRepetida:
+
+	loadn r0, #1080
+
+	loadn r1, #str10
+
+	call ImprimeString
+
+	loadn r0, #1120
+
+	loadn r1, #TryList
+
+	call ImprimeString
+
+	jmp LoopInputLetra
+
 
 FimInputLetra:
-
-	add r6, r6, r4
-
-	outchar r2, r6
-
-	loadn r1, #Letra
-
-	storei r1, r2
 
 	loadn r5, #TryList
 
