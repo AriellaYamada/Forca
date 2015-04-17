@@ -643,6 +643,100 @@ FimCompara:
 
 	pop r0
 
+;_____________________ Testa Fim _________________________________
+
+ TestaFim:
+ 	
+ 	push r0
+
+ 	push r1
+
+ 	push r2
+
+ 	push r3 
+
+ 	load r0, Erros
+
+ 	load r1, Acertos
+
+ 	load r2, PalavraSize
+
+ 	loadn r3, #8
+
+ Resultado:
+ 	
+ 	cmp r0, r3                 ; Compara se o Erro == 8
+
+ 	jeq Perdeu                 ; Se Erro == 8 -> pula para Perdeu
+
+ 	cmp r1, r2                 ; Compara se Acerto = PalavraSize
+
+ 	jeq Venceu                 ; Se Acerto == PalavraSize -> pula para Venceu
+
+ 	rts                        ; Caso Erro != 8 && Acerto != PalavraSize -> retorna
+
+ Perdeu:
+ 	
+ 	loadn r1, #tela0f           ; Load tela Fim (derrota)
+
+ 	call ImprimeTela           ; Imprime tela Fim (derrota)
+
+ 	loadn r1, #Palavra          ; Load Palavra do jogo
+
+ 	call ImprimeString         ; imprime Palavra do jogo
+
+ 	loadn r1, #str4			   ; Load string "Jogar novamente <s/n>?"
+
+ 	call ImprimeString		   ; Imprime string "Jogar novamente <s/n>?"
+
+ 	call DigitaLetra            ; Jogador digita S para novo jogo ou N para sair
+
+ 	loadn r0, #'s'             ; Load char 's'
+
+ 	load r1, Letra
+ 	
+ 	cmp r1, r0                 ; Compara se o jogador
+
+ 	jeq NovoJogo               ; Se for digitado 's' -> pula NovoJogo
+
+ 	halt                      ; Se for digitado 'n' -> termina jogo
+
+ Venceu:
+
+ 	loadn r1, tela0f2          ; Load tela Fim (vitória)
+
+ 	call ImprimeTela           ; Imprime tela Fim (vitória)
+
+ 	loadn r1, str4			   ; Load string "Jogar novamente <s/n>?"
+
+ 	call ImprimeString		   ; Imprime string "Jogar novamente <s/n>?"
+
+ 	call DigitaLetra           ; Jogador digita S para novo jogo ou N para sair
+
+ 	loadn r0, #'s'             ; Load char 's'
+
+ 	load r1, Letra
+ 	
+ 	cmp r1, r0                 ; Se for digitado 's' -> pula NovoJogo
+
+ 	jeq NovoJogo               ; Se for digitado 'n' -> termina jogo
+
+ 	halt
+
+ NovoJogo:
+
+ 	call ApagaTela             ; Limpa Tela
+
+ 	pop r3
+
+ 	pop r2
+
+ 	pop r1
+ 	
+ 	pop r0
+
+ 	jmp main                   ; Pula para main
+
 
 ;________________________IMPRIME STRING__________________________
 
